@@ -1,0 +1,19 @@
+<h1>Create task</h1>
+<form action="/projects/{{projectId}}/tasks" method="POST" enctype="multipart/form-data">
+    <div>
+        Title:
+        <input type="text" name="title" required />
+    </div>
+
+    <div>
+        Due date:
+        <input type="date" name="dueDate" required />
+    </div>
+
+    <div>
+        PDF:
+        <input type="file" name="file" required />
+    </div>
+
+    <button type="submit">Create</button>
+</form>

@@ -1,0 +1,38 @@
+<h1>Projects</h1>
+<p>Logged in as: {{user.username}} ({{user.role}})
+   <form action="/logout" method="POST" style="display:inline;">
+      <button type="submit">Logout</button>
+   </form> 
+</p>
+<table border="1">
+    <tr>
+        <th>Code</th>
+        <th>Description</th>
+        <th>Actions</th>
+    </tr>
+    {{#each projects}}
+    <tr>
+        <td>{{this.code}}</td>
+        <td>{{this.description}}</td>
+        <td>
+            <a href="/projects/{{this.id}}/tasks">View Tasks</a>
+            {{#if (eq ../user.role "teacher")}}
+                <button class="delete-project" data-id="{{this.id}}">
+                    Delete
+                </button>
+            {{/if}}
+        </td>
+    </tr>
+    {{/each}}
+</table>
+
+{{#if (eq user.role "teacher")}}
+<hr>
+<h2>Create project</h2>
+<form action="/projects" method="POST">
+    <input type="text" name="code" placeholder="Code" required />
+    <input type="text" name="description" placeholder="Description" required />
+    <button type="submit">Create</button>
+</form>
+{{/if}}
+<script src="/app.js"></script>

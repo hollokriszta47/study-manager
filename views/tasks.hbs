@@ -1,0 +1,59 @@
+<h1>Tasks</h1>
+
+<table border="1">
+    <tr>
+        <th>Title</th>
+        <th>Due date</th>
+        <th>PDF</th>
+        <th>Submit</th>
+        <th>Actions</th>
+    </tr>
+    {{#each tasks}}
+    <tr>
+        <td>{{this.title}}</td>
+        <td>{{this.dueDate}}</td>
+        <td>
+            <a href="/uploads/{{this.fileName}}">Download</a>
+        </td>
+        <td>
+            {{#if (eq ../user.role "student")}}
+                <form action="/tasks/{{this.id}}/submit" method="POST" enctype="multipart/form-data">
+                    <input type="file" name="solution" required />
+                    <button type="submit">Submit</button>
+                </form>
+                {{#each this.submissions}}
+                    {{#if (eq this.studentId ../../user.id)}}
+                        <p>
+                            Your file: {{this.fileName}} |
+                            Grade: {{#if this.grade}}{{this.grade}}{{else}}Not graded{{/if}}
+                        </p>
+                    {{/if}}
+                {{/each}}
+            {{/if}}
+            {{#if (eq ../user.role "teacher")}}
+                {{#each this.submissions}}
+                    <p>
+                        File: {{this.fileName}} |
+                        Grade: {{#if this.grade}}{{this.grade}}{{else}}Not graded{{/if}}
+                    </p>
+                    <form action="/submissions/{{this.id}}/grade" method="POST">
+                        <input type="number" name="grade" min="1" max="10" required />
+                        <button type="submit">Grade</button>
+                    </form>
+                {{/each}}
+            {{/if}}
+        </td>
+
+        <td>
+            {{#if (eq ../user.role "teacher")}}
+            <button class="delete-task" data-id="{{this.id}}">Delete</button>
+            {{/if}}
+        </td>
+    </tr>
+    {{/each}}
+</table>
+{{#if (eq user.role "teacher")}}
+<br>
+<a href="/projects/{{projectId}}/tasks/create">Create task</a>
+{{/if}}
+<script src="/app.js"></script>

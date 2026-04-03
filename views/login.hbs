@@ -1,0 +1,25 @@
+<h1> Login </h1>
+<form action="/login" method="POST">
+    {{#if error}}
+        <p style="color:red">{{error}}</p>
+    {{/if}}
+    <div>
+        Username:
+        <input type="text" name="username" required />
+    </div>
+
+    <div>
+        Password:
+        <input type="password" name="password" required />
+    </div>
+    <br />
+    <div>
+        Role:
+        <select name="role" required>
+            <option value="student">Student</option>
+            <option value="teacher">Teacher</option>
+        </select>
+    </div>
+    <br />
+    <button type="submit">Login</button>
+</form>
